@@ -1,0 +1,12 @@
+ .buttonAddContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .formStyles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+ }
