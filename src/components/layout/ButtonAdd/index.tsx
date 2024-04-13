@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "@/components/AddPost/ButtonAdd/style.module.css";
+import styles from "@/components/ButtonAdd/style.module.css";
+import HeartIcon from "@/components/shared/HeartIcon";
+import { usePostContext } from "@/context/PostContext";
 
 const ButtonAdd = () => {
   const [add, setAdd] = useState(false);
@@ -11,6 +13,7 @@ const ButtonAdd = () => {
     date: "",
   });
   const [posts, setPosts] = useState([]);
+  const {filter} = usePostContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,10 +29,17 @@ const ButtonAdd = () => {
     e.preventDefault();
     const newPost = { ...inputs };
 
-    console.log(inputs.title);
+    // console.log(inputs.title);
+    console.log();
+
     setPosts([...posts, newPost]);
+    // console.log(...posts);
     setInputs({ title: "", message: "", date: "" });
   };
+
+  const filteredPost = posts.filter((post) =>
+    post.title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <>
@@ -61,12 +71,20 @@ const ButtonAdd = () => {
           <button type="submit">Enviar postagem</button>
         </form>
 
-        {posts.map((post, index) => (
-          <div key={index}>
-            <p>Data: {post.date} </p>
+        <p>{JSON.stringify(inputs)} </p>
+        {filteredPost.map((post, index) => (
+          <div key={index} className={styles.cards}>
+            <div className={styles.iconDateContainer}>
+              <p>{post.date} </p>
+
+              <p>
+                <HeartIcon />
+              </p>
+            </div>
+
             <div className={styles.textContainer}>
-              <p>título: {post.title} </p>
-              <p>mensagem: {post.message} </p>
+              <h3>{post.title} </h3>
+              <p>{post.message} </p>
             </div>
           </div>
         ))}
